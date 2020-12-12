@@ -101,7 +101,8 @@
     // We will just tell the delegate that we have loaded an ad if we already have one ready. However, if we have already
     // played a video for this ad manager, we will go ahead and request another ad from the server so we aren't potentially
     // stuck playing ads from the same network for a prolonged period of time which could be unoptimal with respect to the waterfall.
-    if (self.ready && !self.playedAd) {
+    //if (self.ready && !self.playedAd) 这个地方会导 self.ready与self.adapter hasAdAvailable 不同步，导致客户端拿到一个错误的成功回调，以至于无法再次发起url请求.
+    if (self.hasAdAvailable) {
         // If we already have an ad, do not set the customerId. We'll leave the customerId as the old one since the ad we currently have
         // may be tied to an older customerId.
         [self.delegate rewardedVideoDidLoadForAdManager:self];
